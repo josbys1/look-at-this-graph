@@ -1,0 +1,237 @@
+<html lang='en'>
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://www.desmos.com/api/v0.8/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+    <!--<div id="calculator-1" style="width: 600px; height: 400px;"></div>-->
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class='col'>
+                <h1 class='text-center'>Level 1</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class='col-xs-10'>
+                <div id="calculator-2"></div>
+            </div>
+            <div class='col-xs-2'>
+                <form id='myForm' class='form-horizontal' onsubmit="return checkAnswers()">
+                    <div class='form-group'>
+                        <input type='number' max="10" class='form-control' id='a' placeholder="Enter value for &quot;a&quot;" />
+                        <span class="inline"><button type='button' class='btn btn-success'>Hint</button></span>
+                    </div>
+                    <div class='form-group'>
+                        <input type='text' class='form-control' id='b' placeholder="Enter value for &quot;b&quot;" />
+                    </div>
+                    <div class='form-group'>
+                        <input type='text' class='form-control' id='c' placeholder="Enter value for &quot;c&quot;" />
+                    </div>
+                    <div class='form-group'>
+                        <input type='submit' class='form-control btn btn-primary'>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        var functions = ["(x-h)^2+(y-k)^2=d", "(x-h)^2-(y-k)^2=d", "y=h\\sin\\left(kx\\right)+d", "y=h\\arcsin\\left(kx\\right)+d", "y=h\\ln\\left(kx\\right)+d", "y=h(k^x)+d"]
+        var keys = ["(x-a)^2+(y-b)^2=c", "(x-a)^2-(y-b)^2=c", "y=a\\sin\\left(bx\\right)+c", "y=a\\arcsin\\left(bx\\right)+c", "y=a\\ln\\left(bx\\right)+c", "y=a(b^x)+c"]
+        var rand = Math.floor(Math.random() * functions.length);
+        var h = Math.ceil(Math.random() * 5)
+        var k = Math.ceil(Math.random() * 5)
+        var d = Math.ceil(Math.random() * 5)
+        var initialState = {
+            "version": 1,
+            "graph": {
+                "showGrid": true,
+                "showXAxis": true,
+                "showYAxis": true,
+                "xAxisStep": 0,
+                "yAxisStep": 0,
+                "xAxisMinorSubdivisions": 0,
+                "yAxisMinorSubdivisions": 0,
+                "xAxisArrowMode": "NONE",
+                "yAxisArrowMode": "NONE",
+                "xAxisLabel": "",
+                "yAxisLabel": "",
+                "xAxisNumbers": true,
+                "yAxisNumbers": true,
+                "polarMode": false,
+                "polarNumbers": true,
+                "degreeMode": false,
+                "projectorMode": false,
+                "squareAxes": true,
+                "viewport": {
+                    "xmin": -10,
+                    "ymin": -10,
+                    "xmax": 10,
+                    "ymax": 10
+                }
+            },
+            "expressions": {
+                "list": [{
+                    "id": "2",
+                    "type": "folder",
+                    "title": "Hidden",
+                    "memberIds": {
+                        "3": true,
+                        "4": true,
+                        "5": true,
+                        "6": true
+                    },
+                    "hidden": false,
+                    "collapsed": false,
+                    "secret": true
+                }, {
+                    "id": "3",
+                    "type": "expression",
+                    "latex": functions[rand],
+                    "domain": {
+                        "min": 0,
+                        "max": 1
+                    },
+                    "hidden": false,
+                    "color": "#4F81BD",
+                    "style": "normal"
+                }, {
+                    "id": "4",
+                    "type": "expression",
+                    "latex": "h=" + h,
+                    "domain": {
+                        "min": 0,
+                        "max": 1
+                    },
+                    "hidden": false,
+                    "color": "#4F81BD",
+                    "style": "normal"
+                }, {
+                    "id": "5",
+                    "type": "expression",
+                    "latex": "k=" + k,
+                    "domain": {
+                        "min": 0,
+                        "max": 1
+                    },
+                    "hidden": false,
+                    "color": "#4F81BD",
+                    "style": "normal"
+                }, {
+                    "id": "6",
+                    "type": "expression",
+                    "latex": "d=" + d,
+                    "domain": {
+                        "min": 0,
+                        "max": 1
+                    },
+                    "hidden": false,
+                    "color": "#4F81BD",
+                    "style": "normal"
+                }, {
+                    "id": "7",
+                    "type": "expression",
+                    "latex": keys[rand],
+                    "domain": {
+                        "min": 0,
+                        "max": 1
+                    },
+                    "hidden": false,
+                    "color": "#c74440",
+                    "style": "normal"
+                }, {
+                    "id": "11",
+                    "type": "text",
+                    "text": "Find the equation for the given circle."
+                }]
+            }
+        }
+
+        var elt1 = document.getElementById('calculator-1');
+        //var calculator1 = Desmos.Calculator(elt1, {
+        //  administerSecretFolders: true
+        //});
+        var elt2 = document.getElementById('calculator-2');
+        calculator2 = Desmos.Calculator(elt2, {
+            administerSecretFolders: false
+        });
+
+        //calculator1.setState(initialState);
+        calculator2.setState(initialState);
+        calculator2.setExpressions([{
+            "id": "8",
+            "type": "expression",
+            "sliderBounds": {
+                "min": 0,
+                "max": 10
+            },
+            "latex": "a=1",
+            "domain": {
+                "min": 0,
+                "max": 1
+            },
+            "hidden": false,
+            "color": "#4F81BD",
+            "style": "normal"
+        }, {
+            "id": "9",
+            "type": "expression",
+            "sliderBounds": {
+                "min": 0,
+                "max": 10
+            },
+            "latex": "b=1",
+            "hidden": false,
+            "color": "#4F81BD",
+            "style": "normal"
+        }, {
+            "id": "10",
+            "type": "expression",
+            "sliderBounds": {
+                "min": 0,
+                "max": 10
+            },
+            "latex": "c=1",
+            "hidden": false,
+            "color": "#4F81BD",
+            "style": "normal"
+        }]);
+        //console.log(calculator1.getState())
+        //console.log(calculator2.getState())
+
+        //document.getElementById("myForm").onsubmit = function() {
+        //    checkAnswers()
+        //}
+
+        function checkAnswers() {
+            var a = document.getElementById("a").value
+            var b = document.getElementById("b").value
+            var c = document.getElementById("c").value
+            if (a == h && b == k && c == d) {
+
+                window.alert("Correct!");
+            } else {
+                console.log(a)
+                console.log(h)
+                console.log(b)
+                console.log(k)
+                console.log(c)
+                console.log(d)
+                window.alert("Wrong!");
+            }
+            return false;
+        }
+    </script>
+</body>
+
+</html>
+</script>
+</body>
+
+</html>
